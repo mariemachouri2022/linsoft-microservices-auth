@@ -22,6 +22,24 @@ public class UserController {
         return ResponseEntity.ok("Access granted to ADMIN or MANAGER!");
     }
 
+    @GetMapping("/{id}")
+    public UserDto getUserById(@PathVariable Long id) {
+         return new UserDto(
+                id,
+                "user" + id,                // username
+                "user" + id + "@example.com", // email
+                "pass" + id                  // password (mock)
+        );
+    }
+
+    @GetMapping("/{id}/history")
+    public List<ServiceUsageDTO> getUserHistory(@PathVariable Long id) {
+        return List.of(
+                new ServiceUsageDTO("Service A", 10, 5),
+                new ServiceUsageDTO("Service B", 3, 30),
+                new ServiceUsageDTO("Service C", 1, 90)
+        );
+    }
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
