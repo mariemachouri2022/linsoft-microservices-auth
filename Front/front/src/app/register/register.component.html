@@ -1,0 +1,113 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="bg-white p-5 shadow rounded-4 border border-2 border-primary-subtle">
+
+  <h4 class="mb-4 text-primary text-center">Créer un utilisateur</h4>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Nom d'utilisateur</label>
+      <input class="form-control" formControlName="username" placeholder="Entrez le nom" />
+      <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="text-danger">
+        Le nom d'utilisateur est requis.
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Email</label>
+      <input class="form-control" formControlName="email" type="email" placeholder="exemple@mail.com" />
+      <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+        Un email valide est requis.
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Prénom</label>
+      <input class="form-control" formControlName="firstName" placeholder="Entrez le prénom" />
+      <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" class="text-danger">
+        Le prénom est requis.
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Nom de famille</label>
+      <input class="form-control" formControlName="lastName" placeholder="Entrez le nom de famille" />
+      <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" class="text-danger">
+        Le nom de famille est requis.
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Mot de passe</label>
+      <input class="form-control" formControlName="password" type="password" placeholder="Mot de passe sécurisé" />
+      <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+        Le mot de passe est requis.
+      </div>
+    </div>
+
+    <div class="col-md-6" formArrayName="roles">
+      <label class="form-label fw-semibold">Rôles</label>
+      <div *ngFor="let roleCtrl of rolesControls; let i = index" class="form-check">
+        <input
+          type="checkbox"
+          class="form-check-input"
+          [formControlName]="i"
+          [id]="'roleCheck' + i"
+        />
+        <label class="form-check-label" [for]="'roleCheck' + i">{{ roles[i] }}</label>
+      </div>
+      <div *ngIf="userForm.get('roles')?.errors?.['required'] && userForm.get('roles')?.touched" class="text-danger">
+        Veuillez sélectionner au moins un rôle.
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Photo</label>
+      <input type="file" (change)="onFileChanged($event)" />
+      <div *ngIf="userForm.get('photo')?.invalid && userForm.get('photo')?.touched" class="text-danger">
+        La photo est requise.
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label fw-semibold">Salaire</label>
+      <input class="form-control" type="number" formControlName="salaire" placeholder="Montant en DT" />
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-3 form-check d-flex align-items-center mt-4">
+      <input type="checkbox" class="form-check-input me-2" formControlName="hasCredit" id="creditCheck" />
+      <label class="form-check-label" for="creditCheck">A un crédit</label>
+    </div>
+
+    <div class="col-md-3 form-check d-flex align-items-center mt-4">
+      <input type="checkbox" class="form-check-input me-2" formControlName="hasInsurance" id="insuranceCheck" />
+      <label class="form-check-label" for="insuranceCheck">A une assurance</label>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-semibold">Âge</label>
+      <input class="form-control" type="number" formControlName="age" placeholder="Ex: 30" />
+      <div *ngIf="userForm.get('age')?.invalid && userForm.get('age')?.touched" class="text-danger">
+        L'âge minimum est 18 ans.
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-semibold">Ancienneté</label>
+      <input class="form-control" type="number" formControlName="anciennete" placeholder="Nombre d'années" />
+      <div *ngIf="userForm.get('anciennete')?.invalid && userForm.get('anciennete')?.touched" class="text-danger">
+        L'ancienneté doit être positive.
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button class="btn btn-primary px-5 py-2 fw-bold" type="submit">Soumettre</button>
+  </div>
+</form>

@@ -1,0 +1,33 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4 rounded-4" style="width: 400px;">
+    <h3 class="text-center mb-4 text-primary">Inscription</h3>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-6 space-y-4" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Nom d'utilisateur</label>
+        <input type="text" class="form-control" id="username" formControlName="username" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Adresse e-mail</label>
+        <input type="email" class="form-control" id="email" formControlName="email" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" class="form-control" id="password" formControlName="password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+      <div class="text-center mt-3">
+     
+      <button type="submit" class="btn btn-primary w-100">Continuer avec Google</button>
+      </div>
+        <!-- Inscription -->
+    <p class="text-center text-sm text-gray-500 mt-5">
+    Vous n'avez pas encore de compte ?
+      <a routerLink="/auth/register" class="text-blue-600 hover:underline font-medium">Sign up</a>
+    </p>
+    </form>
+  </div>
+</div>

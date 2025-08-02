@@ -36,21 +36,26 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
     @Bean
+
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").authenticated()
-                        .requestMatchers("/api/auth/**").permitAll() // ✅ Routes publiques
-                        .requestMatchers("/api/users/protected").hasAnyRole("ADMIN", "MANAGER") // ✅ Restriction d'accès
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/auth/**").permitAll() // accès public
+                        .requestMatchers("/api/users/protected").hasAnyRole("ADMIN", "MANAGER") // accès restreint
+                        .anyRequest().authenticated() // tout le reste doit être authentifié
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // ✅ Pas de session
-                .httpBasic(Customizer.withDefaults()); // ✅ Authentification basique
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
-/*
+
+
+    /*
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
